@@ -7,9 +7,17 @@ type Calculation = record
 v1, a1, v2, a2, s: real; // исходные данные
 t: real;  // результат
 end;
+{проверка ошибок ввода}
+function CheckIn(var err:string; k1,k2,k3,k4,k5:real):boolean;
 
+{загрузить инпут}
+procedure OpenInp(var s,s1,s2,s3,s4:string; FName:string);
+{сохранить инпут}
+procedure SaveInp(var s,s1,s2,s3,s4:string; FName:string);
 
+{основная прцдр}
 function TimeMeet (v1, a1, v2, a2, s:real; var flag:boolean; var calcuta:Calculation):real;
+
 implementation
 function TimeMeet (v1, a1, v2, a2, s:real; var flag:boolean; var calcuta:Calculation):real;
 var d:real;
@@ -20,7 +28,6 @@ d := (v1 + v2) * (v1 + v2) - (2 * (a1 + a2) * (-s)); //высчитываем д
     flag:=True;
     result := (-(v1 + v2) + sqrt(d)) /( 2 * ((a1 + a2) / 2)); //высчитываем положительный корень по формуле
     result:=result*1000; result:=round(result); result:=result/1000;
-    //заполнение данных в отдельную запись
     calcuta.v1:=v1;
     calcuta.a1:=a1;
     calcuta.v2:=v2;
@@ -29,4 +36,42 @@ d := (v1 + v2) * (v1 + v2) - (2 * (a1 + a2) * (-s)); //высчитываем д
     calcuta.t:=result;
   end;
 end;
+
+procedure OpenInp(var s,s1,s2,s3,s4:string; FName:string);
+var f:textfile;
+begin
+AssignFile(f,FName);
+Reset(f);
+readln(f,s); {считываем построчно}
+readln(f,s1);
+readln(f,s2);
+readln(f,s3);
+readln(f,s4);
+closeFile(f);
+end;
+
+procedure SaveInp(var s,s1,s2,s3,s4:string; FName:string);
+var f:textfile;
+begin
+AssignFile(f,FName);
+rewrite(f);
+writeln(f,s);
+writeln(f,s1);
+writeln(f,s2);
+writeln(f,s3);
+writeln(f,s4);
+closeFile(f);
+end;
+
+
+function CheckIn(var err:string; k1,k2,k3,k4,k5:real):boolean;
+begin
+if (k1<=0)or(k2<=0)or(k3<=0)or(k4<=0)or(k5<=0)then
+ begin
+ result:=True;
+ err:='Ввод не должен быть меньше или равен нулю!';
+ end;
+
+end;
+
 end.
