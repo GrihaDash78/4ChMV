@@ -7,8 +7,6 @@ type Calculation = record
 v1, a1, v2, a2, s: real; // исходные данные
 t: real;  // результат
 end;
-{проверка ошибок ввода}
-function CheckIn(var err:string; k1,k2,k3,k4,k5:real):boolean;
 
 {загрузить инпут}
 procedure OpenInp(var s,s1,s2,s3,s4:string; FName:string);
@@ -61,17 +59,6 @@ writeln(f,s2);
 writeln(f,s3);
 writeln(f,s4);
 closeFile(f);
-end;
-
-
-function CheckIn(var err:string; k1,k2,k3,k4,k5:real):boolean;
-begin
-if (k1<=0)or(k2<=0)or(k3<=0)or(k4<=0)or(k5<=0)then
- begin
- result:=True;
- err:='Ввод не должен быть меньше или равен нулю!';
- end;
-
 end;
 
 end.

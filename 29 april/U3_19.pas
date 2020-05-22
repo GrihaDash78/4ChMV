@@ -35,6 +35,8 @@ type
     procedure NSaveMemoClick(Sender: TObject);
     procedure NExitClick(Sender: TObject);
     procedure NInfoClick(Sender: TObject);
+    {проверка ошибок ввода}
+    function DataFromForm:boolean;
 
   private
     { Private declarations }
@@ -44,6 +46,7 @@ type
 
 var
   F3_19: TF3_19;
+  var v1, a1, v2, a2, s: double;
   var calcutaM: array[1..128] of Calculation;
   var calcuta: Calculation;
   row:integer;
@@ -52,22 +55,85 @@ implementation
 {$R *.dfm}
 {$I-}
 
-procedure TF3_19.B1Click(Sender: TObject);
-         var v1, a1, v2, a2, t, s: real;
-         flag:boolean;
-         err:string;
+function TF3_19.DataFromForm:boolean;
+var err:string;
+flag:boolean;
 begin
-  v1 := StrToFloat(E1V.Text);
-  a1 := StrToFloat(E1A.Text);
-  v2 := StrToFloat(E2V.Text);
-  a2 := StrToFloat(E2A.Text);
-  s := StrToFloat(ES.Text);
-  if CheckIn(err,v1,a1,v2,a2,s)= True then
+  result:=false; flag:=false;
+
+  if TryStrToFloat(E1v.text,v1) = false then
+  begin
+     err:=err+'Несовместимый тип v1'+#10;
+     E1v.Color:=clRed; flag:=True;
+  end
+  else if (strtofloat(E1v.Text)<=0) then
+    begin
+    err:=err+'Значение v1 должно быть положительным'+#10;
+    E1v.Color:=clRed; flag:=True;
+    end
+    else E1v.Color:=$00D1D5FF;
+
+  if TryStrToFloat(E1a.text,a1) = false then
+  begin
+     err:=err+'Несовместимый тип a1'+#10;
+     E1a.Color:=clRed; flag:=True;
+  end
+  else if (strtofloat(E1a.Text)<=0) then
+    begin
+    err:=err+'Значение a1 должно быть положительным'+#10;
+    E1a.Color:=clRed; flag:=True;
+    end
+    else E1a.Color:=$00D1D5FF;
+
+  if TryStrToFloat(E2v.text,v2) = false then
+  begin
+     err:=err+'Несовместимый тип v2'+#10;
+     E2v.Color:=clRed; flag:=True;
+  end
+  else if (strtofloat(E2v.Text)<=0) then
+    begin
+    err:=err+'Значение v2 должно быть положительным'+#10;
+    E2v.Color:=clRed; flag:=True;
+    end
+    else E2v.Color:=$00FED0C5;
+
+  if TryStrToFloat(E2a.text,a2) = false then
+  begin
+     err:=err+'Несовместимый тип a2'+#10;
+     E2a.Color:=clRed; flag:=True;
+  end
+  else if (strtofloat(E2a.Text)<=0) then
+    begin
+    err:=err+'Значение a2 должно быть положительным'+#10;
+    E2a.Color:=clRed; flag:=True;
+    end
+    else E2a.Color:=$00FED0C5;
+
+  if TryStrToFloat(ES.text,S) = false then
+  begin
+     err:=err+'Несовместимый тип S'+#10;
+     ES.Color:=clRed; flag:=True;
+  end
+  else if (strtofloat(ES.Text)<=0) then
+    begin
+    err:=err+'Значение S должно быть положительным'+#10;
+    ES.Color:=clRed; flag:=True;
+    end
+    else ES.Color:=clWhite;
+
+  if flag = true then
   begin
   ShowMessage(err);
   exit;
   end;
-  t:=TimeMeet(v1,a1,v2,a2,s,flag, calcuta);
+  result:=true;
+end;
+
+procedure TF3_19.B1Click(Sender: TObject);
+         var flag:boolean;
+begin
+  if DataFromForm = false then exit;
+  TimeMeet(v1,a1,v2,a2,s,flag, calcuta);
   if flag = true then //определяем решаемость задачи
   begin
   Inc(row);
@@ -117,35 +183,6 @@ SaveInp(s,s1,s2,s3,s4, OpenDialog1.FileName);
 end;
 end;
 
-{// Открыть файл с параметрами
-procedure TMainForm.MenuItem_openClick(Sender: TObject);
-begin
-    if SaveDialog.Execute then
-      begin
-        if SaveDialog.FileName <> '' then  // пользователь мог не выбрать имя файла, а просто закрыть окно//
-          begin
-          load_params(a, tau, t, SaveDialog.FileName);
-          Edit_a.Text   := floattostr( a );
-          Edit_tau.Text := floattostr( tau );
-          Edit_t.Text   := floattostr( t );
-          end;
-      end;
-
-end;
-
-
-// Сохранить параметры
-procedure TMainForm.MenuItem_saveClick(Sender: TObject);
-begin
-    if SaveDialog.Execute then
-        if SaveDialog.FileName <> '' then  // пользователь мог не выбрать имя файла, а просто закрыть окно
-          begin
-          // получение данных с формы
-          DataFromForm();
-          save_params(a,tau,t, SaveDialog.FileName);
-          end;
-end;}
-
 {прцдр сохранить отчёт}
 procedure TF3_19.NSaveMemoClick(Sender: TObject);
 var FName:string;
@@ -169,17 +206,18 @@ for i:=1 to row do
   write(f,i:6);
   with calcutaM[i] do
   begin
-    write(f,v1:8:3);
-    write(f,a1:8:3);
-    write(f,v2:8:3);
-    write(f,a2:8:3);
-    write(f,s:10:3);
-    write(f,t:10:3);
+    write(f,v1:11:3);
+    write(f,a1:11:3);
+    write(f,v2:11:3);
+    write(f,a2:11:3);
+    write(f,s:13:3);
+    write(f,t:13:3);
   end;
   writeln(f);
  end;
 closefile(f);
 end;
+
 
 
 {закрыть прогу}
