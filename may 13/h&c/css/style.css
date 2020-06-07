@@ -1,0 +1,182 @@
+﻿:root{
+/* Здесь описываются CSS переменные 
+   Имя переменной начинается с --
+   Значение переменной записывается после двоеточия
+   */
+  
+/*   основной цвет !!! */--primary: #0d0dfa75;
+
+/* основной цвет текста !!! */--text: #112200;
+
+/* дополнительный цвет !!! */--secondary: #ffcc88;
+/* дополнительный цвет. светлый вариант !!! */--secondary-light: #a1e4ff;
+  
+/* основной размер шрифта !!! */--size: 13px;
+  
+/*   остальные размеры */--size2: 1.15em;--size3: 1.38em;--size4: 1.53em;}
+
+
+/* Для всей страницы !!! */
+body{
+  font-family: courier, arial;
+  font-size: var(--size);
+  color: var(--text);
+  background: #b6fbff;     /* !!! */
+}
+
+
+li{
+  list-style-type: none;
+}
+
+
+.row li{
+  list-style-type: square;
+}
+
+
+a{
+  text-decoration: none;
+}
+
+
+p{
+  margin: 0;
+}
+
+
+
+
+/* Заголовок */
+.call-us{
+  padding: 20px;
+}
+
+
+/* номер телефона !!! */
+#header-tel-number{
+  font-size: 2em;
+  font-weight: 700;
+}
+
+/* подпись (ссылка) к номеру телефона !!! */
+#header-tel-label{
+  font-size: 1.2em;
+  font-style: italic;
+}
+
+
+
+
+/* Навигация */
+.main-nav{
+  background: var(--secondary-light);  /* --- */
+  justify-content: flex-start;
+  height: 80px;
+  align-items: center;
+  font-size: var(--size3);            /* --- */
+  font-style: italic;
+  margin-bottom: 30px;
+  background: #f77171;  /* !!! */
+}
+
+
+.main-nav li{
+/*   padding: 20px; */
+}
+
+.main-nav li a{
+  text-decoration: none;
+  color: var(--text);                 /* ---- */
+  
+  height: 100%;
+  padding: 29px;
+}
+
+.main-nav li a:hover{
+  background: var(--primary);        /* --- */
+  color: orange;                      /* !!! */
+  
+}
+
+
+
+
+
+
+
+/* Основной раздел */
+
+.main-section{
+  margin-left: 15px;
+  background: #ffd46d;            /* !!! */
+}
+
+.main-section-1{
+  background: var(--primary);       /* !!! */
+  font-weight: 500;
+  color: red;                     /* !!! */
+  
+  padding: 30px;
+}
+
+.cite-author{
+  text-align: right;
+}
+
+
+
+
+.advantages h2{
+  color: white;
+  font-size: var(--size4);        /* !!! */
+  
+  background: var(--primary);     /* !!! */
+  padding: 30px;
+}
+
+.advantages-list{
+  justify-content: space-evenly;
+}
+
+.advantage-item{
+  display: flex;
+  flex-direction: column;
+  margin: 30px;
+}
+
+.advantage-item img{
+  background: var(--secondary);     /* !!! */
+}
+
+.advantage-item span{
+  text-align: center;
+  font-size: var(--size2);          /* --- */
+  color: var(--primary);            /* !!! */
+}
+
+
+
+code{
+               /* !!! */
+               display: block;
+               font-family: roboto;
+               font-weight: 360;
+               white-space: pre-wrap;
+}
+
+footer{
+  width: 100%;
+  height: 100px;
+  background: #acacac;
+  display: flex;
+  font-style: italic;
+  font-size: large;
+  font-weight: 700;
+  justify-content: space-around;
+  align-items: center;
+  color: #f6f637;                     /* !!! */
+}
+
+
+
