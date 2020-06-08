@@ -2,7 +2,7 @@ object F1_2: TF1_2
   Left = 200
   Top = 146
   Caption = #1057#1095#1105#1090' '#1087#1086' '#1092#1086#1088#1084#1091#1083#1077
-  ClientHeight = 360
+  ClientHeight = 359
   ClientWidth = 600
   Color = cl3DLight
   Font.Charset = DEFAULT_CHARSET
@@ -15,8 +15,8 @@ object F1_2: TF1_2
   PixelsPerInch = 96
   TextHeight = 13
   object Formula: TImage
-    Left = 179
-    Top = 25
+    Left = 35
+    Top = 19
     Width = 105
     Height = 105
     Align = alCustom
@@ -36,58 +36,59 @@ object F1_2: TF1_2
     Stretch = True
   end
   object L1: TLabel
-    Left = 336
-    Top = 25
+    Left = 200
+    Top = 19
     Width = 34
     Height = 13
     Align = alCustom
     Caption = #1042#1074#1086#1076' X'
   end
   object L2: TLabel
-    Left = 336
-    Top = 90
+    Left = 200
+    Top = 84
     Width = 34
     Height = 13
     Caption = #1042#1074#1086#1076' Y'
   end
   object B1: TButton
-    Left = 179
-    Top = 155
+    Left = 323
+    Top = 19
     Width = 243
-    Height = 70
+    Height = 105
     Caption = #1042#1067#1055#1054#1051#1053#1048#1058#1068
     TabOrder = 0
     OnClick = B1Click
   end
-  object MeOut: TMemo
-    Left = 8
-    Top = 247
-    Width = 585
-    Height = 105
-    Align = alCustom
-    Lines.Strings = (
-      #1054#1078#1080#1076#1072#1085#1080#1077' '#1074#1074#1086#1076#1072'...')
-    TabOrder = 1
-  end
   object E1: TEdit
-    Left = 290
-    Top = 44
+    Left = 154
+    Top = 38
+    Width = 129
+    Height = 21
+    Alignment = taCenter
+    TabOrder = 1
+    Text = '0'
+  end
+  object E2: TEdit
+    Left = 154
+    Top = 103
     Width = 129
     Height = 21
     Alignment = taCenter
     TabOrder = 2
     Text = '0'
   end
-  object E2: TEdit
-    Left = 290
-    Top = 109
-    Width = 129
-    Height = 21
-    Alignment = taCenter
+  object MeOut: TMemo
+    Left = 8
+    Top = 144
+    Width = 584
+    Height = 207
+    Lines.Strings = (
+      #1054#1078#1080#1076#1072#1085#1080#1077' '#1074#1074#1086#1076#1072'...')
     TabOrder = 3
-    Text = '0'
   end
   object MMenu: TMainMenu
+    Left = 416
+    Top = 65520
     object NOpen: TMenuItem
       Caption = #1054#1090#1082#1088#1099#1090#1100
       OnClick = NOpenClick
@@ -113,9 +114,11 @@ object F1_2: TF1_2
     end
   end
   object OpenDialog1: TOpenDialog
-    Left = 24
+    Left = 512
+    Top = 65520
   end
   object SaveDialog1: TSaveDialog
-    Left = 48
+    Left = 464
+    Top = 65520
   end
 end
