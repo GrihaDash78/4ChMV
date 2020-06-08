@@ -1,15 +1,14 @@
-unit U3_19;
+п»їunit U3_19;
 
 interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, Vcl.Menus, UProc3_19;
+  Dialogs, StdCtrls, ExtCtrls, Vcl.Menus, UProc3_19, Vcl.Grids;
 
 type
-  TF3_19 = class(TForm)     //здесь класс формы
-    B1: TButton;            //начало поля класса
-    MeOut: TMemo;
+  TF3_19 = class(TForm)     //Р·РґРµСЃСЊ РєР»Р°СЃСЃ С„РѕСЂРјС‹
+    B1: TButton;
     E1V: TEdit;
     E2V: TEdit;
     ES: TEdit;
@@ -19,7 +18,7 @@ type
     L1A: TLabel;
     L2A: TLabel;
     L2V: TLabel;
-    L1: TLabel;             //какой-то объект данного класса
+    L1: TLabel;             //РєР°РєРѕР№-С‚Рѕ РѕР±СЉРµРєС‚ РґР°РЅРЅРѕРіРѕ РєР»Р°СЃСЃР°
     L2: TLabel;
     LS: TLabel;
     MMenu: TMainMenu;
@@ -28,13 +27,17 @@ type
     NExit: TMenuItem;
     OpenDialog1: TOpenDialog;
     SaveDialog1: TSaveDialog;
-    NInfo: TMenuItem;        //конец поля класса
-    procedure B1Click(Sender: TObject);   //методы класса
-    procedure NOpenClick(Sender: TObject);      //если юзер откажется от выбора файла,
-    procedure NSaveInputClick(Sender: TObject); //то возникнет исключение I/O error 103
+    NInfo: TMenuItem;
+    MeOut: TMemo;        //РєРѕРЅРµС† РїРѕР»СЏ РєР»Р°СЃСЃР°
+    procedure B1Click(Sender: TObject);   //РјРµС‚РѕРґС‹ РєР»Р°СЃСЃР°
+    procedure NOpenClick(Sender: TObject);      //РµСЃР»Рё СЋР·РµСЂ РѕС‚РєР°Р¶РµС‚СЃСЏ РѕС‚ РІС‹Р±РѕСЂР° С„Р°Р№Р»Р°,
+    procedure NSaveInputClick(Sender: TObject); //С‚Рѕ РІРѕР·РЅРёРєРЅРµС‚ РёСЃРєР»СЋС‡РµРЅРёРµ I/O error 103
     procedure NSaveMemoClick(Sender: TObject);
     procedure NExitClick(Sender: TObject);
     procedure NInfoClick(Sender: TObject);
+    {РїСЂРѕРІРµСЂРєР° РѕС€РёР±РѕРє РІРІРѕРґР°}
+    function DataFromForm:boolean;
+
   private
     { Private declarations }
   public
@@ -43,89 +46,148 @@ type
 
 var
   F3_19: TF3_19;
-
+  var v1, a1, v2, a2, s: double;
+  clearmem:boolean;
+  row:integer;
 implementation
 
 {$R *.dfm}
 {$I-}
 
-procedure TF3_19.B1Click(Sender: TObject);
-         var v1, a1, v2, a2, t, s: real;
-         flag:boolean;
+function TF3_19.DataFromForm:boolean;
+var err:string;
+flag:boolean;
 begin
-  v1 := StrToFloat(E1V.Text);
-  a1 := StrToFloat(E1A.Text);
-  v2 := StrToFloat(E2V.Text);
-  a2 := StrToFloat(E2A.Text);
-  s := StrToFloat(ES.Text);
-  MeOut.Lines.Add('Данные тел: V1 = '+E1V.Text+'  A1 = '+E1A.Text+'    V2 = '+E2V.Text+'  A2 = '+E2A.Text);
-  MeOut.Lines.Add('Расстояние = ' + ES.Text);
-  t:=TimeMeet(v1,a1,v2,a2,s,flag);
-  if flag = true then //определяем решаемость задачи
+  result:=false; flag:=false;
+
+  if TryStrToFloat(E1v.text,v1) = false then
   begin
-    MeOut.Lines.Add('Результат: Тела встретятся через: ' + FloatToStr(t) + ' секунд '); //вывод результата
-    MeOut.SetFocus;
+     err:=err+'РќРµСЃРѕРІРјРµСЃС‚РёРјС‹Р№ С‚РёРї v1'+#10;
+     E1v.Color:=clRed; flag:=True;
+  end
+  else if (strtofloat(E1v.Text)<=0) then
+    begin
+    err:=err+'Р—РЅР°С‡РµРЅРёРµ v1 РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РїРѕР»РѕР¶РёС‚РµР»СЊРЅС‹Рј'+#10;
+    E1v.Color:=clRed; flag:=True;
+    end
+    else E1v.Color:=$00D1D5FF;
+  if TryStrToFloat(E1a.text,a1) = false then
+  begin
+     err:=err+'РќРµСЃРѕРІРјРµСЃС‚РёРјС‹Р№ С‚РёРї a1'+#10;
+     E1a.Color:=clRed; flag:=True;
+  end
+  else if (strtofloat(E1a.Text)<=0) then
+    begin
+    err:=err+'Р—РЅР°С‡РµРЅРёРµ a1 РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РїРѕР»РѕР¶РёС‚РµР»СЊРЅС‹Рј'+#10;
+    E1a.Color:=clRed; flag:=True;
+    end
+    else E1a.Color:=$00D1D5FF;
+  if TryStrToFloat(E2v.text,v2) = false then
+  begin
+     err:=err+'РќРµСЃРѕРІРјРµСЃС‚РёРјС‹Р№ С‚РёРї v2'+#10;
+     E2v.Color:=clRed; flag:=True;
+  end
+  else if (strtofloat(E2v.Text)<=0) then
+    begin
+    err:=err+'Р—РЅР°С‡РµРЅРёРµ v2 РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РїРѕР»РѕР¶РёС‚РµР»СЊРЅС‹Рј'+#10;
+    E2v.Color:=clRed; flag:=True;
+    end
+    else E2v.Color:=$00FED0C5;
+  if TryStrToFloat(E2a.text,a2) = false then
+  begin
+     err:=err+'РќРµСЃРѕРІРјРµСЃС‚РёРјС‹Р№ С‚РёРї a2'+#10;
+     E2a.Color:=clRed; flag:=True;
+  end
+  else if (strtofloat(E2a.Text)<=0) then
+    begin
+    err:=err+'Р—РЅР°С‡РµРЅРёРµ a2 РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РїРѕР»РѕР¶РёС‚РµР»СЊРЅС‹Рј'+#10;
+    E2a.Color:=clRed; flag:=True;
+    end
+    else E2a.Color:=$00FED0C5;
+  if TryStrToFloat(ES.text,S) = false then
+  begin
+     err:=err+'РќРµСЃРѕРІРјРµСЃС‚РёРјС‹Р№ С‚РёРї S'+#10;
+     ES.Color:=clRed; flag:=True;
+  end
+  else if (strtofloat(ES.Text)<=0) then
+    begin
+    err:=err+'Р—РЅР°С‡РµРЅРёРµ S РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РїРѕР»РѕР¶РёС‚РµР»СЊРЅС‹Рј'+#10;
+    ES.Color:=clRed; flag:=True;
+    end
+    else ES.Color:=clWhite;
+
+  if flag = true then
+  begin
+  ShowMessage(err);
+  exit;
+  end;
+  result:=true;
+end;
+
+procedure TF3_19.B1Click(Sender: TObject);
+ var flag:boolean;
+     z:double;
+begin
+  if DataFromForm = false then exit;
+  z:=TimeMeet(v1,a1,v2,a2,s,flag);
+  if flag = true then //РѕРїСЂРµРґРµР»СЏРµРј СЂРµС€Р°РµРјРѕСЃС‚СЊ Р·Р°РґР°С‡Рё
+  begin
+  Inc(row);
+  if clearmem = False then MeOut.Clear;
+  MeOut.Lines.Add('РЎС‡С‘С‚ в„–'+IntToStr(row));
+  MeOut.Lines.Add('Р”Р°РЅРЅС‹Рµ С‚РµР»: V1 = '+E1V.Text+'  A1 = '+E1A.Text+'    V2 = '+E2V.Text+'  A2 = '+E2A.Text);
+  MeOut.Lines.Add('Р Р°СЃСЃС‚РѕСЏРЅРёРµ = ' + ES.Text);
+  MeOut.Lines.Add('Р РµР·СѓР»СЊС‚Р°С‚: РўРµР»Р° РІСЃС‚СЂРµС‚СЏС‚СЃСЏ С‡РµСЂРµР·: ' + FloatToStr(z) + ' СЃРµРєСѓРЅРґ '); //РІС‹РІРѕРґ СЂРµР·СѓР»СЊС‚Р°С‚Р°
+  MeOut.SetFocus;
+  clearmem:=True;
   end
   else
-    MeOut.Lines.Add('Результат: Нет решения.');
-    MeOut.SetFocus;
+    ShowMessage('РџСЂРё С‚Р°РєРёС… РґР°РЅРЅС‹С… РЅРµС‚ СЂРµС€РµРЅРёСЏ.');
 end;
 
-             {процедура для кнопки открыть}
+{РїСЂРѕС†РµРґСѓСЂР° РґР»СЏ РєРЅРѕРїРєРё РѕС‚РєСЂС‹С‚СЊ}
 procedure TF3_19.NOpenClick(Sender: TObject);
-var FName,s,s1,s2,s3,s4: string; {FName для удобства, чтобы имя файла автоматом ставилось}
-f:textfile;
+var s, s1, s2, s3, s4:string;
 begin
-if OpenDialog1.Execute then {открывает проверяет}
-begin
-FName := OpenDialog1.FileName; {присваивает в переменную имя файла, который мы выбрали}
-AssignFile(f,FName);
-Reset(f);
-readln(f,s); {считываем построчно}
-readln(f,s1);
-readln(f,s2);
-readln(f,s3);
-readln(f,s4);
-E1V.Text:=s; {заполняем}
-E1A.Text:=s1;
-E2V.Text:=s2;
-E2A.Text:=s3;
-ES.Text:=s4;
-end;
-closeFile(f);
+if OpenDialog1.Execute then
+ if OpenDialog1.FileName <> '' then  // РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РјРѕРі РЅРµ РІС‹Р±СЂР°С‚СЊ РёРјСЏ С„Р°Р№Р»Р°, Р° РїСЂРѕСЃС‚Рѕ Р·Р°РєСЂС‹С‚СЊ РѕРєРЅРѕ//
+ begin
+ OpenInp(s,s1,s2,s3,s4,OpenDialog1.FileName);
+ E1V.Text:=s; {Р·Р°РїРѕР»РЅСЏРµРј}
+ E1A.Text:=s1;
+ E2V.Text:=s2;
+ E2A.Text:=s3;
+ ES.Text:=s4;
+ end;
+
 end;
 
-{процедура для кнопки сохранить, принцип тот же, построчный}
+{РїСЂРѕС†РµРґСѓСЂР° РґР»СЏ РєРЅРѕРїРєРё СЃРѕС…СЂР°РЅРёС‚СЊ, РїСЂРёРЅС†РёРї С‚РѕС‚ Р¶Рµ, РїРѕСЃС‚СЂРѕС‡РЅС‹Р№}
 procedure TF3_19.NSaveInputClick(Sender: TObject);
-var FName,s,s1,s2,s3,s4: string;
-f:textfile;
+var s, s1, s2, s3, s4:string;
 begin
+if DataFromForm = false then exit;
 if SaveDialog1.Execute then
-FName := SaveDialog1.FileName;
-AssignFile(f,FName);
-rewrite(f);
-s:=E1V.Text;
-s1:=E1A.Text;
-s2:=E2V.Text;
-s3:=E2A.Text;
-s4:=ES.Text;
-writeln(f,s);
-writeln(f,s1);
-writeln(f,s2);
-writeln(f,s3);
-writeln(f,s4);
-closeFile(f);
+        if SaveDialog1.FileName <> '' then  // РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РјРѕРі РЅРµ РІС‹Р±СЂР°С‚СЊ РёРјСЏ С„Р°Р№Р»Р°, Р° РїСЂРѕСЃС‚Рѕ Р·Р°РєСЂС‹С‚СЊ РѕРєРЅРѕ//
+          begin
+s:=F3_19.E1V.Text;
+s1:=F3_19.E1A.Text;
+s2:=F3_19.E2V.Text;
+s3:=F3_19.E2A.Text;
+s4:=F3_19.ES.Text;
+SaveInp(s,s1,s2,s3,s4, OpenDialog1.FileName);
 end;
-{прцдр сохранить отчёт}
-procedure TF3_19.NSaveMemoClick(Sender: TObject);
-var FName:string;
-begin
-if SaveDialog1.Execute then
-FName := SaveDialog1.FileName;
-MeOut.Lines.SaveToFile(FName);
 end;
 
-{закрыть прогу}
+{РїСЂС†РґСЂ СЃРѕС…СЂР°РЅРёС‚СЊ РѕС‚С‡С‘С‚}
+procedure TF3_19.NSaveMemoClick(Sender: TObject);
+begin
+if SaveDialog1.Execute then
+if SaveDialog1.FileName <> '' then
+MeOut.Lines.SaveToFile(SaveDialog1.FileName);
+end;
+
+{Р·Р°РєСЂС‹С‚СЊ РїСЂРѕРіСѓ}
 procedure TF3_19.NExitClick(Sender: TObject);
 begin
 close;
@@ -133,7 +195,9 @@ end;
 
 procedure TF3_19.NInfoClick(Sender: TObject);
 begin
-ShowMessage('Задача: №19 из задачника'+#10+'Сделал: Булгару Г. из ИВТ-19-2');
+ShowMessage('Р—Р°РґР°С‡Р°: в„–19 РёР· Р·Р°РґР°С‡РЅРёРєР°'+#10+'РЎРґРµР»Р°Р»: Р‘СѓР»РіР°СЂСѓ Р“. РёР· РР’Рў-19-2');
 end;
+
+begin
 
 end.
