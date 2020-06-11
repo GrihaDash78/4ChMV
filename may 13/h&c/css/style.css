@@ -1,182 +1,227 @@
-﻿:root{
+:root{
 /* Здесь описываются CSS переменные 
    Имя переменной начинается с --
-   Значение переменной записывается после двоеточия
+   Значение переменной записывается после двоеточия.
+  
+  Все эти перменные используются в коде ниже.
+  
+  Рекомендуется изменять эти переменные, 
+  а не указывать отдельные цвета где-то в середине этой файла.
+ 
    */
   
-/*   основной цвет !!! */--primary: #0d0dfa75;
+/*   основной цвет !!! */
+  --primary: #3D9AD1;
 
-/* основной цвет текста !!! */--text: #112200;
+/* освновной цвет текста !!! */
+  --text: #2B7EAF;
 
-/* дополнительный цвет !!! */--secondary: #ffcc88;
-/* дополнительный цвет. светлый вариант !!! */--secondary-light: #a1e4ff;
+/* дополнительный цвет !!! */
+  --secondary: #FFCB04	;
+/* долполнительный цвет. светлый вариант !!! */
+  --secondary-light: #FFE275;
   
-/* основной размер шрифта !!! */--size: 13px;
+/*   Акцидентный цвет и цвет шрифта на его фоне */
+  --accent: #FF4540;
+  --accent-text: #FFffff;
   
-/*   остальные размеры */--size2: 1.15em;--size3: 1.38em;--size4: 1.53em;}
+  --accent2: #FF7673;  /* используется только для подсветки кнопки акцидентного цвета при наведении */
+  --accent2-text: #ffffff;
+  
+/* основной размер шрифта !!! */
+  --size: 13px;
+  
+/* остальные размеры текста 
+   Они заданы для заголовкой и больших элементов 
+  в относительных еденицах. За 1 принят размер текста в body.
+  
+  */
+  --size2: 1.15em;
+  --size3: 1.38em;
+  --size4: 1.9em;
+}
 
 
 /* Для всей страницы !!! */
 body{
-  font-family: courier, arial;
-  font-size: var(--size);
+  font-family: Trebuchet MS, arial;    /* Основной и запасной шрифт */
+  /* Здесь задётся размер шрифта с помошью переменной. Переменная оборачивается в var*/
+  font-weight: 800;
+  font-size: var(--size);    
+/*   цвет шрифта всей страницы */
   color: var(--text);
-  background: #b6fbff;     /* !!! */
+  /* цвет фона всей страницы */
+  background: var(--secondary-light);     /* !!! */
 }
 
 
-li{
-  list-style-type: none;
-}
+/* Настройка внешнего вида списков, ссылок и отступа для параграфа */
+ul li{
+  list-style-type: none;}
 
 
-.row li{
-  list-style-type: square;
-}
+
+.row ul li{
+  list-style-type: square;}
 
 
 a{
-  text-decoration: none;
-}
-
+  text-decoration: none;}
 
 p{
-  margin: 0;
+  margin: 5px 10px;}
+
+
+/* заголовоки первого-третьего уровня */
+h1{
+  font-size: var(--size4)
+}
+
+h2{
+  font-size: var(--size3)
+}
+
+h3{
+  font-size: var(--size2)
 }
 
 
 
+/* Шапка */
+header{                       /* !!! */
+  background: var(--secondary-light);
+  font-weight:700;
+  color: var(--text);
+}
 
-/* Заголовок */
-.call-us{
-  padding: 20px;
+/* Заголовок и подзаголовок вместе */
+.Title{
+    /* Для заколовка можно задать особенный шрифт */
+font-family: Comic Sans MS;
+
 }
 
 
-/* номер телефона !!! */
-#header-tel-number{
-  font-size: 2em;
-  font-weight: 700;
-}
-
-/* подпись (ссылка) к номеру телефона !!! */
-#header-tel-label{
-  font-size: 1.2em;
-  font-style: italic;
-}
-
-
-
-
-/* Навигация */
-.main-nav{
-  background: var(--secondary-light);  /* --- */
-  justify-content: flex-start;
-  height: 80px;
+/* Правая часть заголовка */
+.Title-right{
+  background: var(--secondary-light);
+  color: var(--text);
+  display: flex;
+  align-content: center;
   align-items: center;
-  font-size: var(--size3);            /* --- */
-  font-style: italic;
-  margin-bottom: 30px;
-  background: #f77171;  /* !!! */
+}
+
+/* Ссылка в заголовке (справа) */
+.Title-right a{
+  background: var(--secondary-light);
+  color: var(--primary);
+}
+
+/* Посещеная ссылка в заголовке (справа) */
+.Title-right a:visited{
+  background: var(--secondary-light);
+  color: var(--primary);
 }
 
 
-.main-nav li{
-/*   padding: 20px; */
+
+/* Навигация (строка меню) */
+.main-nav{
+  background: var(--primary);  /* !!! */
+  font-size: var(--size2);             /* --- */
+  margin-bottom: 30px; 
+font-style:italic;  
 }
 
+
+/* Текст элемента меню */
 .main-nav li a{
   text-decoration: none;
-  color: var(--text);                 /* ---- */
+  color: white;                 /* ---- */
   
   height: 100%;
   padding: 29px;
 }
 
+
+/* Текст элемента меню при наведении*/
 .main-nav li a:hover{
-  background: var(--primary);        /* --- */
-  color: orange;                      /* !!! */
-  
+  background: var(--accent);        /* --- */
+  color: var(--accent-text);        /* --- */
 }
-
-
 
 
 
 
 
 /* Основной раздел */
-
 .main-section{
   margin-left: 15px;
-  background: #ffd46d;            /* !!! */
+  background: var(--secondary-light);            /* !!! */
 }
 
-.main-section-1{
-  background: var(--primary);       /* !!! */
+
+/* Блоки основного раздела */
+.row{
+  background: var(--secondary);       /* !!! */
   font-weight: 500;
-  color: red;                     /* !!! */
+  color: var(--text);                        /* !!! */
   
-  padding: 30px;
+  padding: 30px;  
 }
 
-.cite-author{
+
+/* .cite-author{
   text-align: right;
 }
+ */
 
 
-
-
-.advantages h2{
-  color: white;
-  font-size: var(--size4);        /* !!! */
-  
-  background: var(--primary);     /* !!! */
-  padding: 30px;
-}
-
-.advantages-list{
-  justify-content: space-evenly;
-}
-
-.advantage-item{
-  display: flex;
-  flex-direction: column;
-  margin: 30px;
-}
-
-.advantage-item img{
-  background: var(--secondary);     /* !!! */
-}
-
-.advantage-item span{
-  text-align: center;
-  font-size: var(--size2);          /* --- */
-  color: var(--primary);            /* !!! */
-}
-
-
-
+/* Для исходного кода */
 code{
-               /* !!! */
-               display: block;
-               font-family: roboto;
-               font-weight: 360;
-               white-space: pre-wrap;
+  font-family: roboto;             /* !!! */
+  display: block;
+  font-weight:500;
+  white-space: pre-wrap   
 }
 
+
+
+
+
+/* Заметная кнопка */
+.click-me{
+  background: var(--accent);      /* --- */
+  color: var(--accent-text);
+  border-radius: 7px;
+  padding: 8px 20px;
+  
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 800;             /* --- */
+ 
+}
+
+/* Заметная кнопка. При наведении */
+.click-me:hover{
+  background: var(--accent2);      /* --- */
+  color: var(--accent2-text);
+}
+
+
+
+
+
+/* Нижняя часть сайта, "подвал" */
 footer{
-  width: 100%;
-  height: 100px;
-  background: #acacac;
-  display: flex;
-  font-style: italic;
-  font-size: large;
-  font-weight: 700;
-  justify-content: space-around;
-  align-items: center;
-  color: #f6f637;                     /* !!! */
+  color: white;                     /* !!! */
+  font-style:italic;
+  font-weight:700;
+  font-size:large;
 }
 
 
+html {
+  scroll-behavior: smooth;
+}
 
