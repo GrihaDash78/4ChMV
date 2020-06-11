@@ -9,15 +9,15 @@ t: real;  // результат
 end;
 
 {загрузить инпут}
-procedure OpenInp(var s,s1,s2,s3,s4:string; FName:string);
+procedure OpenInp(var v1,a1,v2,a2,s:double; FName:string);
 {сохранить инпут}
-procedure SaveInp(var s,s1,s2,s3,s4:string; FName:string);
+procedure SaveInp(v1,a1,v2,a2,s:double; FName:string);
 
 {основная прцдр}
-function TimeMeet (v1, a1, v2, a2, s:real; var flag:boolean; var calcuta:Calculation):real;
+function TimeMeet (var v1, a1, v2, a2, s:double; var flag:boolean; var calcuta:Calculation):real;
 
 implementation
-function TimeMeet (v1, a1, v2, a2, s:real; var flag:boolean; var calcuta:Calculation):real;
+function TimeMeet (var v1, a1, v2, a2, s:double; var flag:boolean; var calcuta:Calculation):real;
 var d:real;
 begin
 d := (v1 + v2) * (v1 + v2) - (2 * (a1 + a2) * (-s)); //высчитываем дискриминант
@@ -35,29 +35,29 @@ d := (v1 + v2) * (v1 + v2) - (2 * (a1 + a2) * (-s)); //высчитываем д
   end;
 end;
 
-procedure OpenInp(var s,s1,s2,s3,s4:string; FName:string);
+procedure OpenInp(var v1,a1,v2,a2,s:double; FName:string);
 var f:textfile;
 begin
 AssignFile(f,FName);
 Reset(f);
-readln(f,s); {считываем построчно}
-readln(f,s1);
-readln(f,s2);
-readln(f,s3);
-readln(f,s4);
+readln(f,v1); {считываем построчно}
+readln(f,a1);
+readln(f,v2);
+readln(f,a2);
+readln(f,s);
 closeFile(f);
 end;
 
-procedure SaveInp(var s,s1,s2,s3,s4:string; FName:string);
+procedure SaveInp(v1,a1,v2,a2,s:double; FName:string);
 var f:textfile;
 begin
 AssignFile(f,FName);
 rewrite(f);
+writeln(f,v1);
+writeln(f,a1);
+writeln(f,v2);
+writeln(f,a2);
 writeln(f,s);
-writeln(f,s1);
-writeln(f,s2);
-writeln(f,s3);
-writeln(f,s4);
 closeFile(f);
 end;
 

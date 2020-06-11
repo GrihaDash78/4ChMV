@@ -152,34 +152,29 @@ end;
 
              {процедура для кнопки открыть}
 procedure TF3_19.NOpenClick(Sender: TObject);
-var s, s1, s2, s3, s4:string;
 begin
+if DataFromForm = false then exit;
 if OpenDialog1.Execute then
         if OpenDialog1.FileName <> '' then  // пользователь мог не выбрать имя файла, а просто закрыть окно//
           begin
-OpenInp(s,s1,s2,s3,s4,OpenDialog1.FileName);
-E1V.Text:=s; {заполняем}
-E1A.Text:=s1;
-E2V.Text:=s2;
-E2A.Text:=s3;
-ES.Text:=s4;
+OpenInp(v1,a1,v2,a2,s,OpenDialog1.FileName);
+E1V.Text:=FloatToStr(v1); {заполняем}
+E1A.Text:=FloatToStr(a1);
+E2V.Text:=FloatToStr(v2);
+E2A.Text:=FloatToStr(a2);
+ES.Text:=FloatToStr(s);
 end;
 
 end;
 
 {процедура для кнопки сохранить, принцип тот же, построчный}
 procedure TF3_19.NSaveInputClick(Sender: TObject);
-var s, s1, s2, s3, s4:string;
 begin
+if DataFromForm = false then exit;
 if SaveDialog1.Execute then
         if SaveDialog1.FileName <> '' then  // пользователь мог не выбрать имя файла, а просто закрыть окно//
           begin
-s:=F3_19.E1V.Text;
-s1:=F3_19.E1A.Text;
-s2:=F3_19.E2V.Text;
-s3:=F3_19.E2A.Text;
-s4:=F3_19.ES.Text;
-SaveInp(s,s1,s2,s3,s4, OpenDialog1.FileName);
+SaveInp(v1,a1,v2,a2,s, OpenDialog1.FileName);
 end;
 end;
 
